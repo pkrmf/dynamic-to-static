@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby -U
+ require "dynamictostatic/cli.rb"
+
+ Dynamictostatic::CLI.start(ARGV)
