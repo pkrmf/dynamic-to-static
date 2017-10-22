@@ -1,5 +1,6 @@
 require "dynamictostatic/version"
 require "dynamictostatic/cli"
+require 'Xcodeproj'
 
 module Dynamictostatic
   class Converter
@@ -19,10 +20,22 @@ module Dynamictostatic
 		framework_target = @project.native_targets.find { |target| target.name == @framework_target_name }
 
 		framework_target.build_configuration_list.build_configurations.each do |build_config|
-			puts build_config
-
-		       #build_config.build_settings.delete "BUNDLE_LOADER"
+			build_config.build_settings['MACH_O_TYPE'] = "staticlib"
+			build_config.build_settings['ONLY_ACTIVE_ARCH'] = "NO"
+			build_config.build_settings['INSTALL_PATH'] = "/usr/local/lib"
+			build_config.build_settings['DYLIB_INSTALL_NAME_BASE'] = ""
+			build_config.build_settings['DYLIB_INSTALL_NAME_BASE'] = ""
+			build_config.build_settings['OTHER_LDFLAGS'] = "-ObjC"
+			build_config.build_settings['LD_RUNPATH_SEARCH_PATHS'] = ""
+			build_config.build_settings['CLANG_ENABLE_MODULE_DEBUGGING'] = "NO"
+			build_config.build_settings['DEAD_CODE_STRIPPING'] = "NO"
+			build_config.build_settings['COPY_PHASE_STRIP'] = "NO"
+			build_config.build_settings['STRIP_STYLE'] = "Non-Global Symbols"
+			if build_config.name == 'Release'
+				build_config.build_settings['CLANG_ENABLE_CODE_COVERAGE'] = "NO"
+			end
 		end
+		@project.save
 
 	end
   end
