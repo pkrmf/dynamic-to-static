@@ -30,7 +30,9 @@ module Dynamictostatic
 			build_config.build_settings['CLANG_ENABLE_MODULE_DEBUGGING'] = "NO"
 			build_config.build_settings['DEAD_CODE_STRIPPING'] = "NO"
 			build_config.build_settings['COPY_PHASE_STRIP'] = "NO"
-			build_config.build_settings['STRIP_STYLE'] = "Non-Global Symbols"
+			build_config.build_settings['STRIP_STYLE'] = "debugging"
+            build_config.build_settings['GCC_INLINES_ARE_PRIVATE_EXTERN'] = "NO"
+            build_config.build_settings['STRIP_INSTALLED_PRODUCT'] = "NO"
 			if build_config.name == 'Release'
 				build_config.build_settings['CLANG_ENABLE_CODE_COVERAGE'] = "NO"
 			end
